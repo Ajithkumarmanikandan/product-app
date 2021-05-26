@@ -14,3 +14,15 @@ git commit -m "first commit"
 git remote add origin https://github.com/Ajithkumarmanikandan/product-app.git
 git branch -M main
 git push -u origin main
+
+
+1. git repo
+2. create project in eclipse
+3. create sql file,execute and store inside project 
+4. Addd jar 
+5. create packages
+6. model class 
+7. exception class
+8. dao 
+9. service
+10. client

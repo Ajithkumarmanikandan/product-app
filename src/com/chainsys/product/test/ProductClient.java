@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.List;
 
 import com.chainsys.product.exception.ProductNotFoundException;
 import com.chainsys.product.model.Product;
@@ -14,6 +15,8 @@ public class ProductClient {
 	public static void main(String[] args) {
 
 		Set<Product> productSet;
+		List<String> nameList;
+		List<Integer> idList;
 		ProductService service = new ProductServiceImpl();
 		String date;
 		DateTimeFormatter dateFormat;
@@ -71,6 +74,7 @@ public class ProductClient {
 						System.out.println(productSet);
 					} catch (ProductNotFoundException e) {
 					}
+					break;
 				case 6:
 					System.out.println("Finding product by name");
 					name = scanner.next();
@@ -80,6 +84,7 @@ public class ProductClient {
 					}
 					catch(ProductNotFoundException e) {
 					}
+					break;
 				case 7:
 					System.out.println("Update the expiry date by id");
 					id = scanner.nextInt();
@@ -93,9 +98,10 @@ public class ProductClient {
 					} catch (ProductNotFoundException e) {
 		
 					}
+					break;
 				case 8:
 					System.out.println("Deleting a product by product name");
-					System.out.println("Enter the product name");
+					System.out.println("Enter the product name :");
 					name = scanner.next();
 					try {
 						service.deleteByName(name);
@@ -105,6 +111,43 @@ public class ProductClient {
 					catch(ProductNotFoundException e) {
 						
 					}
+					break;
+				case 9:
+					System.out.println("View All Product Names");
+					nameList=service.ViewAllProductName();
+					System.out.println(nameList);
+					break;
+				case 10:
+					System.out.println("View All Product IDs");
+					idList=service.ViewAllProductId();
+					System.out.println(idList);
+					break;
+				case 11:
+					System.out.println("Deleting a product by expiry date");
+					System.out.println("Enter the date :");
+					date = scanner.next();
+					dateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+					try {
+						service.deleteByDate(LocalDate.parse(date,dateFormat));
+						productSet = service.findAll();
+						System.out.println(productSet);
+					}
+					catch(Exception e) {
+						
+					}
+					break;
+				case 12:
+					System.out.println("Find product by date");
+					date = scanner.next();
+					dateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+					try {
+						Product product = service.findByDate(LocalDate.parse(date,dateFormat));
+						System.out.println(product);
+					}
+					catch(Exception e) {
+						
+					}
+					break;
 				default:
 					System.exit(0);
 					break;

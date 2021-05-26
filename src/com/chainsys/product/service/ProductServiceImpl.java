@@ -1,6 +1,8 @@
 package com.chainsys.product.service;
 
 import java.util.Set;
+import java.time.LocalDate;
+import java.util.List;
 
 import com.chainsys.product.dao.ProductDAO;
 import com.chainsys.product.dao.ProductDAOImpl;
@@ -17,6 +19,16 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Set<Product> findAll() {
 		return dao.findAll();
+	}
+	
+	@Override
+	public List<String> ViewAllProductName() {
+		return dao.ViewAllProductName();
+	}
+	
+	@Override
+	public List<Integer> ViewAllProductId() {
+		return dao.ViewAllProductId();
 	}
 
 	@Override
@@ -39,6 +51,18 @@ public class ProductServiceImpl implements ProductService {
 			return product;
 		}
 	}
+	
+	@Override
+	public Product findByDate(LocalDate date)throws ProductNotFoundException{
+		Product product = dao.findByDate(date);
+		if(product == null) {
+			throw new ProductNotFoundException("Product Name Not Found");
+		}
+		else {
+			return product;
+		}
+	}
+	
 	@Override
 	public void save(Product Product) {
 		dao.save(Product);
@@ -84,6 +108,16 @@ public class ProductServiceImpl implements ProductService {
 			throw new ProductNotFoundException("Product doesn't exist!!");
 		} else {
 			dao.deleteByName(name);
+		}
+	}
+	
+	@Override
+	public void deleteByDate(LocalDate date) throws ProductNotFoundException {
+		Product Product = dao.findByDate(date);
+		if (Product == null) {
+			throw new ProductNotFoundException("Product doesn't exist!!");
+		} else {
+			dao.deleteByDate(date);
 		}
 	}
 

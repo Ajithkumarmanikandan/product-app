@@ -1,13 +1,17 @@
 package com.chainsys.product.dao;
 
 import java.sql.Connection;
+
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.ArrayList;
 
 import com.chainsys.product.model.Product;
 
@@ -44,6 +48,37 @@ public class ProductDAOImpl implements ProductDAO {
 		}
 		return productSet;
 	}
+	
+	@Override
+	public List<String> ViewAllProductName() {
+		ArrayList<String> nameList = new ArrayList<>();
+		try {
+			pstmt = con.prepareStatement("select p_name from product_2608");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				nameList.add(rs.getString("p_name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nameList;
+	}
+	
+	@Override
+	public List<Integer> ViewAllProductId(){
+		ArrayList<Integer> idList = new ArrayList<>();
+		try {
+			pstmt = con.prepareStatement("select p_id from product_2608");
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				idList.add(rs.getInt("p_id"));
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return idList;
+	}
 
 	@Override
 	public Product findById(int id) {
@@ -67,6 +102,22 @@ public class ProductDAOImpl implements ProductDAO {
 		try {
 			pstmt = con.prepareStatement("select * from product_2608 where p_name=?");
 			pstmt.setString(1, name);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				product = new Product(rs.getInt("p_id"), rs.getString("p_name"), rs.getDate("expiry_date").toLocalDate());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return product;
+	}	
+	
+	@Override
+	public Product findByDate(LocalDate date) {
+		Product product = null;
+		try {
+			pstmt = con.prepareStatement("select * from product_2608 where expiry_date=?");
+			pstmt.setDate(1, Date.valueOf(date));
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				product = new Product(rs.getInt("p_id"), rs.getString("p_name"), rs.getDate("expiry_date").toLocalDate());
@@ -139,6 +190,18 @@ public class ProductDAOImpl implements ProductDAO {
 		catch(SQLException e){
 			e.printStackTrace();
 		}
+	}
+		
+		@Override
+		public void deleteByDate(LocalDate date) {
+			try {
+				pstmt = con.prepareStatement("delete product_2608 where expiry_date=?");
+				pstmt.setDate(1,Date.valueOf(date));
+				pstmt.executeUpdate();
+			}
+			catch(SQLException e){
+				e.printStackTrace();
+			}		
 	}
 
 }

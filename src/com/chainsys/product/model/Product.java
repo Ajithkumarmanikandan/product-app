@@ -8,13 +8,20 @@ public class Product {
 	private LocalDate expiryDate;
 
 	public Product() {
-
+		super();
 	}
 
 	public Product(int id, String name, LocalDate expiryDate) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.expiryDate = expiryDate;
+	}
+	
+
+	public Product(String name) {
+		super();
+		this.name = name;
 	}
 
 	public int getId() {
@@ -79,5 +86,5 @@ public class Product {
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", expiryDate=" + expiryDate + "]";
 	}
-
+	
 }
