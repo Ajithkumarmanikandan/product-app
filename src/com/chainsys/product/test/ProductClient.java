@@ -93,6 +93,18 @@ public class ProductClient {
 					} catch (ProductNotFoundException e) {
 		
 					}
+				case 8:
+					System.out.println("Deleting a product by product name");
+					System.out.println("Enter the product name");
+					name = scanner.next();
+					try {
+						service.deleteByName(name);
+						productSet = service.findAll();
+						System.out.println(productSet);
+					}
+					catch(ProductNotFoundException e) {
+						
+					}
 				default:
 					System.exit(0);
 					break;

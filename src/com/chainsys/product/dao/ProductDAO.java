@@ -18,4 +18,6 @@ public interface ProductDAO {
 	void updateExpire(Product product);
 
 	void delete(int id);
+	
+	void deleteByName(String name);
 }
